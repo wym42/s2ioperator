@@ -148,6 +148,13 @@ func (r *ReconcileS2iRun) GenerateNewJob(instance *devopsv1alpha1.S2iRun) (*batc
 					Labels: map[string]string{"job-name": jobName},
 				},
 				Spec: corev1.PodSpec{
+					// 将我们的registry的host加上，未来设置成动态扩展的
+					HostAliases: []corev1.HostAlias{
+						{
+							IP:        "10.193.28.1",
+							Hostnames: []string{"registry.vivo.bj04.xyz"},
+						},
+					},
 					ServiceAccountName: RegularServiceAccount,
 					Containers: []corev1.Container{
 						{
